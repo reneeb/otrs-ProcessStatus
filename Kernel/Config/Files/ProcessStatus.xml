@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<otrs_config version="1.0" init="Application">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###217-ProcessStatus" Required="0" Valid="1">
+        <Description Translatable="1">Shows a link in the menu to show currenct process status.</Description>
+        <Group>ProcessStatus</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenu::ProcessStatus</Item>
+                <Item Key="Name" Translatable="1">ProcessStatus</Item>
+                <Item Key="Description" Translatable="1">Show current process status</Item>
+                <Item Key="Action">AgentProcessStatus</Item>
+                <Item Key="Link">Action=AgentProcessStatus;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="LinkParam"></Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
+                <Item Key="ClusterName" Translatable="1"></Item>
+                <Item Key="ClusterPriority"></Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ProcessStatus::Debug" Required="0" Valid="1">
+        <Description Translatable="1">Enable/Disable debugging feature.</Description>
+        <Group>ProcessStatus</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ProcessStatus::ActiveBackground" Required="0" Valid="1">
+        <Description Translatable="1">Background color for the active activity.</Description>
+        <Group>ProcessStatus</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">#ff0000</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentProcessStatus" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for process status module.</Description>
+        <Group>ProcessStatus</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description Translatable="1">Show current process status</Description>
+                <NavBarName>Ticket</NavBarName>
+                <Title Translatable="1">Show current process status</Title>
+                <Loader>
+                    <CSS>Core.Agent.Admin.ProcessManagement.css</CSS>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>thirdparty/jsplumb-1.6.4/jsplumb.js</JavaScript>
+                    <JavaScript>thirdparty/farahey-0.5/farahey.js</JavaScript>
+                    <JavaScript>thirdparty/jsplumb-labelspacer/label-spacer.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.ProcessManagement.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.ProcessManagement.Canvas.js</JavaScript>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>PS.ProcessStatus.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+</otrs_config>

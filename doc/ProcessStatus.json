@@ -1,0 +1,16 @@
+{
+    "name": "ProcessStatus",
+    "version": "0.5.4",
+    "framework": [
+        "5.0.x"
+    ],
+    "vendor": {
+        "name":  "Perl-Services.de",
+        "url": "http://www.perl-services.de"
+    },
+    "license": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007",
+    "description" : {
+        "en": "Show current status in process tickets",
+        "de": "Zeigt den aktuellen Stand in Prozesstickets"
+    }
+}

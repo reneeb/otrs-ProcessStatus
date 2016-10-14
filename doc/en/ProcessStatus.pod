@@ -1,0 +1,26 @@
+=encoding utf-8
+
+=head1 NAME
+
+ProcessStatus - Show current status in process tickets
+
+=head1 DESCRIPTION
+
+=head1 SPONSOR
+
+This addon was sponsored by ILANG Ft. L<http://www.otrs-megoldasok.hu>
+
+=head1 SUPPORT AND SOURCE CODE
+
+If you experience any bugs, please file an issue at L<https://github.com/reneeb/otrs-ProcessStatus/issues>.
+
+I do not read the comments here regularly...
+
+If you want to contribute code, please checkout the source code at L<https://github.com/reneeb/otrs-ProcessStatus>
+
+=head1 AUTHOR AND LICENSE
+
+This module is licensed under the terms of AGPL 3.0.
+
+Author: Renée Bäcker C<< <otrs@perl-services.de> >>
+

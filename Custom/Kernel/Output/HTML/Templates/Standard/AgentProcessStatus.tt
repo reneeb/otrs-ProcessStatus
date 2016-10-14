@@ -1,0 +1,81 @@
+# --
+# Copyright (C) 2016 Perl-Services.de
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+
+    <div class="Header">
+        <h1>[% Translate("Show current process status for ticket") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
+        <p>
+            <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+        </p>
+    </div>
+
+    <div class="Content">
+        <div class="LayoutFixedSidebar SidebarLast">
+            <div class="ContentColumn">
+                <div class="WidgetSimple Expanded">
+
+                    <input type="hidden" name="StartActivity" value=""/>
+                    <input type="hidden" id="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+                    <input type="hidden" id="ActivityEntityID" value="[% Data.ActivityEntityID | html %]"/>
+
+                    <div class="Content">
+                        <div id="Canvas">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+[% RenderBlockStart("ConfigSet") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.Set('Config.Process', [% Data.ProcessConfig %] );
+    Core.Config.Set('Config.ProcessLayout', [% Data.ProcessLayout %] );
+    Core.Config.Set('Config.Activity', [% Data.ActivityConfig %] );
+    Core.Config.Set('Config.ActivityDialog', [% Data.ActivityDialogConfig %] );
+    Core.Config.Set('Config.Transition', [% Data.TransitionConfig %] );
+    Core.Config.Set('Config.TransitionAction', [% Data.TransitionActionConfig %] );
+    Core.Config.Set('ProcessStatus.ActiveBackground', "[% Data.ActiveBackground | html %]");
+
+    Core.Config.Set('Config.ImagePath', "[% Config("Frontend::ImagePath") %]");
+//]]></script>
+[% END %]
+[% RenderBlockEnd("ConfigSet") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+PS.ProcessStatus.Init();
+
+PS.ProcessStatus.Localization = {
+        CancelMsg: "[% Translate("Cancel") | html %]",
+        ShowEntityIDs: "[% Translate("Show EntityIDs") | html %]",
+        HideEntityIDs: "[% Translate("Hide EntityIDs") | html %]",
+        DeleteMsg: "[% Translate("Delete") | html %]",
+        DeleteEntityTitle: "[% Translate("Delete Entity") | html %]",
+        RemoveEntityCanvasTitle: "[% Translate("Remove Entity from canvas") | html %]",
+        ActivityAlreadyPlaced: "[% Translate("This Activity is already used in the Process. You cannot add it twice!") | html %]",
+        ActivityCannotBeDeleted: "[% Translate("This Activity cannot be deleted because it is the Start Activity.") | html %]",
+        TransitionAlreadyPlaced: "[% Translate("This Transition is already used for this Activity. You cannot use it twice!") | html %]",
+        TransitionActionAlreadyPlaced: "[% Translate("This TransitionAction is already used in this Path. You cannot use it twice!") | html %]",
+        TransitionDeleteLink: "[% Translate("Remove the Transition from this Process") | html %]",
+        TransitionEditLink: "[% Translate("Edit this transition") | html %]",
+        NoTransitionActionsAssigned: "[% Translate("No TransitionActions assigned.") | html %]",
+        StartEventCapChange: "[% Translate("The Start Event cannot loose the Start Transition!") | html %]",
+        RemoveActivityMsg: "[% Translate("Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.") | html %]",
+        RemoveTransitionMsg: "[% Translate("Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.") | html %]",
+        NoDialogsAssigned: "[% Translate("No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.") | html %]",
+        UnconnectedTransition: "[% Translate("An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.") | html %]"
+};
+//]]></script>
+//]]></script>
+[% END %]
