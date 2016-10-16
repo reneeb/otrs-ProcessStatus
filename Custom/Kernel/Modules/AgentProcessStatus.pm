@@ -11,6 +11,7 @@ package Kernel::Modules::AgentProcessStatus;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -36,18 +37,10 @@ sub Run {
 
     my $TicketID = $ParamObject->GetParam( Param => 'TicketID' );
 
-    my $TranslatableComment = $LayoutObject->{LanguageObject}->Translate(
-        "Please contact the admin.",
-    );
-
     if ( !$TicketID ) {
-        my $TranslatableMessage = $LayoutObject->{LanguageObject}->Translate(
-            "No TicketID is given!",
-        );
-
         return $LayoutObject->ErrorScreen(
-            Message => $TranslatableMessage,
-            Comment => $TranslatableComment,
+            Message => Translatable('No TicketID is given!'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -60,12 +53,8 @@ sub Run {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-        my $TranslatableMessage = $LayoutObject->{LanguageObject}->Translate(
-            "We are sorry, you do not have permissions anymore to access this ticket in its current state. "
-        );
-
         return $LayoutObject->NoPermission(
-            Message    => $TranslatableMessage,
+            Message    => Translatable('We are sorry, you do not have permissions anymore to access this ticket in its current state.'),
             WithHeader => 'yes',
         );
     }
@@ -78,13 +67,9 @@ sub Run {
     );
 
     if ( !%Ticket ) {
-        my $TranslatableMessage = $LayoutObject->{LanguageObject}->Translate(
-            "No Ticket found",
-        );
-
         return $LayoutObject->ErrorScreen(
-            Message => $TranslatableMessage,
-            Comment => $TranslatableComment,
+            Message => Translatable('No Ticket found!'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -93,7 +78,7 @@ sub Run {
     # check for ProcessID
     if ( !$ProcessID ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need ProcessID!",
+            Message => Translatable('Need ProcessID!'),
         );
     }
 
@@ -106,7 +91,7 @@ sub Run {
     # check for valid Process data
     if ( !IsHashRefWithData($ProcessData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Could not get data for ProcessID $ProcessID",
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not get data for ProcessID %s', $ProcessID ),
         );
     }
 

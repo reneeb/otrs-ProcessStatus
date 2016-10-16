@@ -8,7 +8,7 @@ ProcessStatus - Show current status in process tickets
 
 =head1 SPONSOR
 
-This addon was sponsored by ILANG Ft. L<http://www.otrs-megoldasok.hu>
+This addon was sponsored by ILANG Kft. L<http://www.otrs-megoldasok.hu>
 
 =head1 SUPPORT AND SOURCE CODE
 
