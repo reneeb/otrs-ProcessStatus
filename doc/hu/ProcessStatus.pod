@@ -1,0 +1,32 @@
+=encoding utf-8
+
+=head1 NÉV
+
+ProcessStatus - az aktuális állapot megjelenítése a folyamatjegyekben.
+
+=head1 LEÍRÁS
+
+=head1 TÁMOGATÓ
+
+Ezt a kiegészítőt az ILANG Kft. L<http://www.otrs-megoldasok.hu> támogatta.
+
+=head1 TÁMOGATÁS ÉS FORRÁSKÓD
+
+Ha valamilyen hibát tapasztal, akkor küldjön be egy hibajegyet a 
+L<https://github.com/reneeb/otrs-ProcessStatus/issues> címen.
+
+Itt nem olvasom rendszeresen a hozzászólásokat…
+
+Ha szeretne részt venni a kódolásban, akkor töltse le a forráskódot a 
+L<https://github.com/reneeb/otrs-ProcessStatus> címről.
+
+=head1 SZERZŐ ÉS LICENC
+
+Ez a modul az AGPL 3.0 feltételei szerint licencelt.
+
+Szerző: Renée Bäcker C<< <otrs@perl-services.de> >>
+
+=head1 MAGYAR FORDÍTÁS
+
+A magyar fordítást az OTRS-megoldások csapata készítette.
+Copyright (C) 2016 Úr Balázs, L<http://otrs-megoldasok.hu>

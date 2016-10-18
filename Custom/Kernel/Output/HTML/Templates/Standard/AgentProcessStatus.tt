@@ -77,5 +77,4 @@ PS.ProcessStatus.Localization = {
         UnconnectedTransition: "[% Translate("An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.") | html %]"
 };
 //]]></script>
-//]]></script>
 [% END %]
