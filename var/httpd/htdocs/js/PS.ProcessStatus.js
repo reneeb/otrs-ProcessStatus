@@ -99,11 +99,9 @@ PS.ProcessStatus = (function (TargetNS) {
                 'background-color' : Background
             })
             .bind('mouseenter.Activity', function() {
-                TargetNS.ShowActivityTooltip($(this));
                 $(this).addClass('Hovered');
             })
             .bind('mouseleave.Activity', function() {
-                $('#DiagramTooltip').hide();
                 $(this).removeClass('Hovered');
             });
 
@@ -144,178 +142,6 @@ PS.ProcessStatus = (function (TargetNS) {
             top: DummyPosition.top,
             left: DummyPosition.left
         });
-    };
-
-    TargetNS.ShowTransitionTooltip = function (Connection, StartActivity) {
-        var $Tooltip = $('#DiagramTooltip'),
-            $Element = $(Connection.canvas),
-            $TitleElement = $Element.clone(),
-            text,
-            position = { x: 0, y: 0},
-            Transition = TargetNS.ProcessData.Transition,
-            ElementID = $TitleElement.find('span').attr('id'),
-            CurrentProcessEntityID = $('#ProcessEntityID').val(),
-            PathInfo = TargetNS.ProcessData.Process[CurrentProcessEntityID].Path,
-            AssignedTransitionActions = [],
-            CanvasWidth, CanvasHeight,
-            TooltipWidth, TooltipHeight;
-
-        $TitleElement.find('a').remove();
-        text = '<h4>' + Core.App.EscapeHTML($TitleElement.text()) + '</h4>';
-
-        if (typeof Transition[ElementID] === 'undefined') {
-            return false;
-        }
-
-        if (!$Tooltip.length) {
-            $Tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
-        }
-        else if ($Tooltip.is(':visible')) {
-            $Tooltip.hide();
-        }
-
-        $.each(PathInfo, function(Activity, TransitionObject) {
-            if (Activity === StartActivity && typeof TransitionObject[ElementID] !== 'undefined' && typeof TransitionObject[ElementID].TransitionAction !== 'undefined') {
-                AssignedTransitionActions = TransitionObject[ElementID].TransitionAction;
-                return false;
-            }
-        });
-
-        // Add content to the tooltip
-        text += "<ul>";
-        if (AssignedTransitionActions.length) {
-            $.each(AssignedTransitionActions, function (Key, Value) {
-                text += "<li>" + Core.App.EscapeHTML(TargetNS.ProcessData.TransitionAction[Value].Name) + "</li>";
-            });
-        }
-        else {
-            text += '<li class="NoDialogsAssigned">Test' + TargetNS.Localization.NoTransitionActionsAssigned + '</li>';
-        }
-        text += "</ul>";
-
-        $Tooltip.html(text);
-
-        // calculate tooltip position
-        // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-        //position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 30;
-        //
-        // y: y-coordinate of canvas + y-coordinate of element within canvas + height of element
-        //position.y = parseInt($Element.css('top'), 10) + 15;
-
-        // calculate tooltip position
-        // if activity box is at the right border of the canvas, switch tooltip to the left side of the box
-        CanvasWidth = $('#Canvas').width();
-        TooltipWidth = $Tooltip.width();
-
-        // If activity does not fit in canvas, generate tooltip on the left side
-        if (CanvasWidth < (parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + TooltipWidth)) {
-            // x: x-coordinate of element within canvas - width of tooltip
-            position.x = parseInt($Element.css('left'), 10) - TooltipWidth - 5;
-        }
-        // otherwise put tooltip on the right side (default behaviour)
-        else {
-            // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-            position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 40;
-        }
-
-        // if activity box is at the bottom border of the canvas, set tooltip y-coordinate to the top as far as needed
-        CanvasHeight = $('#Canvas').height();
-        TooltipHeight = $Tooltip.height();
-
-        // y-coordinate
-        if (parseInt($Element.css('top'), 10) + TooltipHeight + 15 > CanvasHeight) {
-            position.y = CanvasHeight - TooltipHeight - 15;
-        }
-        else {
-            position.y = parseInt($Element.css('top'), 10) + 15;
-        }
-
-        $Tooltip
-            .css('top', position.y)
-            .css('left', position.x)
-            .show();
-    };
-
-    TargetNS.ShowActivityTooltip = function ($Element) {
-        var $Tooltip = $('#DiagramTooltip'),
-            text = '<h4>' + Core.App.EscapeHTML($Element.find('span').text()) + '</h4>',
-            position = {x: 0, y: 0},
-            Activity = TargetNS.ProcessData.Activity,
-            ActivityDialogs,
-            CanvasWidth,
-            CanvasHeight,
-            TooltipWidth,
-            TooltipHeight;
-
-        if (typeof Activity[$Element.attr('id')] === 'undefined') {
-            return false;
-        }
-
-        ActivityDialogs = Activity[$Element.attr('id')].ActivityDialog;
-
-        if (!$Tooltip.length) {
-            $Tooltip = $('<div id="DiagramTooltip"></div>').css('display', 'none').appendTo('#Canvas');
-        }
-        else if ($Tooltip.is(':visible')) {
-            $Tooltip.hide();
-        }
-
-        // Add content to the tooltip
-        text += "<ul>";
-        if (ActivityDialogs) {
-            $.each(ActivityDialogs, function (Key, Value) {
-                var Interfaces = TargetNS.ProcessData.ActivityDialog[Value].Interface,
-                    SelectedInterface = '';
-
-                $.each(Interfaces, function (InterfaceKey, InterfaceValue) {
-                    if (SelectedInterface.length) {
-                        SelectedInterface += '/';
-                    }
-                    SelectedInterface += InterfaceValue.substr(0, 1);
-                });
-                text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + Core.App.EscapeHTML(TargetNS.ProcessData.ActivityDialog[Value].Name) + " </li>";
-            });
-        }
-        else {
-            text += '<li class="NoDialogsAssigned">' + TargetNS.Localization.NoDialogsAssigned + '</li>';
-        }
-
-        text += "</ul>";
-
-        $Tooltip.html(text);
-
-        // calculate tooltip position
-        // if activity box is at the right border of the canvas, switch tooltip to the left side of the box
-        CanvasWidth = $('#Canvas').width();
-        TooltipWidth = $Tooltip.width();
-
-        // If activity does not fit in canvas, generate tooltip on the left side
-        if (CanvasWidth < (parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + TooltipWidth)) {
-            // x: x-coordinate of element within canvas - width of tooltip
-            position.x = parseInt($Element.css('left'), 10) - TooltipWidth - 10;
-        }
-        // otherwise put tooltip on the right side (default behaviour)
-        else {
-            // x: x-coordinate of canvas + x-coordinate of element within canvas + width of element
-            position.x = parseInt($Element.css('left'), 10) + parseInt($Element.width(), 10) + 15;
-        }
-
-        // if activity box is at the bottom border of the canvas, set tooltip y-coordinate to the top as far as needed
-        CanvasHeight = $('#Canvas').height();
-        TooltipHeight = $Tooltip.height();
-
-        // y-coordinate
-        if (parseInt($Element.css('top'), 10) + TooltipHeight + 10 > CanvasHeight) {
-            position.y = CanvasHeight - TooltipHeight - 10;
-        }
-        else {
-            position.y = parseInt($Element.css('top'), 10) + 10;
-        }
-
-        $Tooltip
-            .css('top', position.y)
-            .css('left', position.x)
-            .show();
     };
 
     TargetNS.SetStartActivity = function (EntityID) {
@@ -441,13 +267,9 @@ PS.ProcessStatus = (function (TargetNS) {
         // highlight label
         $(Connection.canvas).addClass('Hovered');
         Connection.component.setPaintStyle({ strokeStyle: "#FF9922", lineWidth: '2' });
-
-        // show tooltip with assigned transition actions
-        TargetNS.ShowTransitionTooltip(Connection, StartActivity);
     };
 
     TargetNS.UnHighlightTransitionLabel = function(Connection) {
-        $('#DiagramTooltip').hide();
         $(Connection.canvas).removeClass('Hovered');
         Connection.component.setPaintStyle({ strokeStyle: "#000", lineWidth: '2' });
     };
