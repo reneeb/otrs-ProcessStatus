@@ -1,6 +1,6 @@
 {
     "name": "ProcessStatus",
-    "version": "0.5.5",
+    "version": "5.0.1",
     "framework": [
         "5.0.x"
     ],
